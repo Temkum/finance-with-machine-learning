@@ -1,10 +1,31 @@
+import { Box, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { useMemo } from 'react';
+import { themeSettings } from './theme';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Navbar from '@/scenes/navbar';
+
 function App() {
+  const theme = useMemo(() => createTheme(themeSettings), []);
 
   return (
     <>
-      <div className="app">APP</div>
+      <div className="app">
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Box width={'100%'} height={'100%'} padding="1rem 2rem 4rem 2rem">
+              <Navbar />
+              <Routes>
+                {/* <Route path="/" element={<h2>Home</h2>} /> */}
+                <Route path="/" element={<h2>Dashboard</h2>} />
+                <Route path="/predictions" element={<h2>Predictions</h2>} />
+              </Routes>
+            </Box>
+          </ThemeProvider>
+        </BrowserRouter>
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
