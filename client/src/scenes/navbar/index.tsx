@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { Box, Typography, useTheme } from '@mui/material';
 import FlexBetween from '@/components/FlexBetween';
 
-import PixIcon from '@mui/icons-material/Pix';
-
 type Props = {};
 
 const Navbar = (props: Props) => {
@@ -15,14 +13,22 @@ const Navbar = (props: Props) => {
     <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
       {/* LEFT SIDE */}
       <FlexBetween gap="0.75rem">
-        <PixIcon sx={{ fontSize: '28px' }} />
+        {/* <PixIcon sx={{ fontSize: '28px' }} />
         <Typography variant="h4" fontWeight="bold" fontSize={'16px'}>
           Fin-ai
-        </Typography>
+        </Typography> */}
+        <img
+          src="/assets/images/logo-white.png"
+          alt="Log"
+          style={{
+            width: '50px',
+            height: '50px',
+            objectFit: 'cover',
+            borderRadius: '50%',
+          }}
+        />
         <FlexBetween borderRadius="9px" gap="3rem" p="0.1rem 1.5rem">
-          <Typography variant="h5" color={palette.primary[100]}>
-            Dashboard
-          </Typography>
+          <Typography variant="h5" color={palette.primary[100]}></Typography>
         </FlexBetween>
       </FlexBetween>
 

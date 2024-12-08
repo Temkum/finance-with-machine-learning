@@ -14,3 +14,9 @@ interface PrimaryPalette {
 type Palette = {
   palette: PrimaryPalette
 }
+
+type Props = Record<string, unknown>;
+
+type Theme = {
+  palette: Palette;
+};
