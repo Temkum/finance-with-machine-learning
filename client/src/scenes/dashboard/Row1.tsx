@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import { useMemo } from 'react';
 import { useTheme } from '@mui/material';
+import BoxHeader from '@/components/BoxHeader';
 
 const Row1 = () => {
   const { data } = useGetKPIsQuery();
@@ -33,6 +34,11 @@ const Row1 = () => {
   return (
     <>
       <DashboardBox gridArea="a">
+        <BoxHeader
+          title="Revenue and Expenses"
+          subtitle="Top line represents revenue, bottom line represents expenses"
+          sideText="+4%"
+        />
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             width={500}
