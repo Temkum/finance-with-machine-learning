@@ -241,11 +241,6 @@ const Row1 = () => {
             <Tooltip />
             <Legend />
             <Bar
-              dataKey="pv"
-              fill="#8884d8"
-              activeBar={<Rectangle fill="pink" stroke="blue" />}
-            />
-            <Bar
               dataKey="revenue"
               fill="#82ca9d"
               activeBar={<Rectangle fill="gold" stroke="purple" />}
