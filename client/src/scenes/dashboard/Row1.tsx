@@ -3,17 +3,20 @@ import DashboardBox from './DashboardBox';
 import {
   Area,
   AreaChart,
+  Bar,
+  BarChart,
   CartesianGrid,
   Legend,
   Line,
   LineChart,
+  Rectangle,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 import { useMemo } from 'react';
-import { useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import BoxHeader from '@/components/BoxHeader';
 
 const Row1 = () => {
@@ -41,6 +44,19 @@ const Row1 = () => {
           name: month.substring(0, 3),
           revenue: revenue,
           profit: (revenue - expenses).toFixed(2),
+        };
+      })
+    );
+  }, [data]);
+
+  const revenue = useMemo(() => {
+    return (
+      data &&
+      data[0].monthlyData.map(({ month, revenue }) => {
+        return {
+          name: month.substring(0, 3),
+          revenue: revenue,
+          profit: revenue.toFixed(2),
         };
       })
     );
@@ -178,7 +194,65 @@ const Row1 = () => {
           </LineChart>
         </ResponsiveContainer>
       </DashboardBox>
-      <DashboardBox gridArea="c"></DashboardBox>
+      <DashboardBox gridArea="c">
+        <BoxHeader
+          title="Revenue month by month"
+          subtitle="Graph representing monthly revenue"
+          sideText="+8%"
+        />
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            width={500}
+            height={300}
+            data={revenue}
+            margin={{
+              top: 17,
+              right: 15,
+              left: -5,
+              bottom: 68,
+            }}
+          >
+            <defs>
+              <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor={palette.primary[300]}
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="95%"
+                  stopColor={palette.primary[300]}
+                  stopOpacity={0}
+                />
+              </linearGradient>
+            </defs>
+            <CartesianGrid vertical={false} stroke={palette.grey[800]} />
+            <XAxis
+              dataKey="name"
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: '10px' }}
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: '10px' }}
+            />
+            <Tooltip />
+            <Legend />
+            <Bar
+              dataKey="pv"
+              fill="#8884d8"
+              activeBar={<Rectangle fill="pink" stroke="blue" />}
+            />
+            <Bar
+              dataKey="revenue"
+              fill="#82ca9d"
+              activeBar={<Rectangle fill="gold" stroke="purple" />}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </DashboardBox>
     </>
   );
 };
