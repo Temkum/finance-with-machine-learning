@@ -7,11 +7,13 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { kpis, products } from './data/data.js';
+import { kpis, products, transactions } from './data/data.js';
 import kpiRoutes from './routes/kpi.js';
 import productRoutes from './routes/product.js';
+import transactionRoutes from './routes/transaction.js';
 import KPI from './models/KPI.js';
 import Product from './models/Product.js';
+import Transaction from './models/Transaction.js';
 
 // configurations
 dotenv.config();
@@ -32,6 +34,7 @@ app.use(cors());
 // routes
 app.use('/kpi', kpiRoutes);
 app.use('/product', productRoutes);
+app.use('/transaction', transactionRoutes);
 
 // mongoose setup
 const start = async () => {
@@ -53,8 +56,8 @@ const start = async () => {
     //   seed data ONLY ONCE
     // await mongoose.connection.db.dropDatabase();
     // KPI.insertMany(kpis);
-
     // Product.insertMany(products);
+    // Transaction.insertMany(transactions);
   } catch (error) {
     console.log(error);
   }

@@ -46,10 +46,14 @@ export interface Product {
 }
 
 export interface GetProductsResponse {
-  id: string;
+ id: string;
   _id: string;
   __v: number;
-  products: Array<Product>;
+  price: number;
+  expense: number;
+  transactions: Array<string>;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ExpenseByCategory {
@@ -71,4 +75,15 @@ export interface Day {
   date: string;
   revenue: number;
   expenses: number;
+}
+
+export interface GetTransactionsResponse {
+  id: string;
+  _id: string;
+  __v: number;
+  buyer: string;
+  amount: number;
+  productIds: Array<string>;
+  createdAt: string;
+  updatedAt: string;
 }

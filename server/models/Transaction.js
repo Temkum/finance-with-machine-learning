@@ -1,23 +1,24 @@
 import { loadType } from 'mongoose-currency';
+import mongoose from 'mongoose';
 
 loadType(mongoose);
 
 const TransactionSchema = new mongoose.Schema(
   {
     buyer: {
-      type: mongoose.Types.Currency,
-      currency: 'USD',
-      get: (v) => v / 100,
+      type: String,
+      required: true,
     },
     amount: {
       type: mongoose.Types.Currency,
       currency: 'USD',
       get: (v) => v / 100,
     },
-    productId: [
+    productIds: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
+        required: true,
       },
     ],
     createdAt: {
@@ -30,4 +31,4 @@ const TransactionSchema = new mongoose.Schema(
 
 const Transaction = mongoose.model('Transaction', TransactionSchema);
 
-module.exports = Transaction;
+export default Transaction;

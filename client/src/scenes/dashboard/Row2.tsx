@@ -44,7 +44,6 @@ const Row2 = () => {
   }, [operationalData]);
 
   const productExpenseData = useMemo(() => {
-    console.log('first', productData);
     return (
       productData &&
       Array.isArray(productData) &&
