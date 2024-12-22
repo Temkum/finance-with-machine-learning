@@ -33,12 +33,11 @@ const pieData = [
 
 const Row2 = () => {
   const { palette } = useTheme();
-  const pieColors = [palette.primary[800], palette.primary[300]];
+  const pieColors = [palette.primary.dark, palette.primary.light];
   const { data: operationalData } = useGetKPIsQuery<GetKpisResponse>();
   const { data: productData } = useGetProductsQuery<GetProductsResponse>();
 
   const operationalExpenses = useMemo(() => {
-    console.log('operational', operationalData);
     return (
       operationalData &&
       operationalData[0].monthlyData.map(
@@ -69,8 +68,6 @@ const Row2 = () => {
       })
     );
   }, [productData]);
-
-  console.log('first', productData);
 
   return (
     <>
@@ -207,7 +204,7 @@ const Row2 = () => {
             <Scatter
               name="Product Expense Ratio"
               data={productExpenseData}
-              fill={palette.tertiary[500]}
+              fill={palette.primary.main}
             />
           </ScatterChart>
         </ResponsiveContainer>
