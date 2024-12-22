@@ -9,13 +9,22 @@ import {
   Pie,
   PieChart,
   ResponsiveContainer,
+  Scatter,
+  ScatterChart,
   Tooltip,
   XAxis,
   YAxis,
+  ZAxis,
 } from 'recharts';
 import { Box, Typography, useTheme } from '@mui/material';
 import { useMemo } from 'react';
 import FlexBetween from '@/components/FlexBetween';
+import {
+  GetKpisResponse,
+  GetProductsResponse,
+  MonthlyData,
+  Product,
+} from '@/types';
 
 const pieData = [
   { name: 'Group A', value: 600 },
@@ -25,18 +34,23 @@ const pieData = [
 const Row2 = () => {
   const { palette } = useTheme();
   const pieColors = [palette.primary[800], palette.primary[300]];
-  const { data: operationalData } = useGetKPIsQuery();
-  const { data: productData } = useGetProductsQuery();
+  const { data: operationalData } = useGetKPIsQuery<GetKpisResponse>();
+  const { data: productData } = useGetProductsQuery<GetProductsResponse>();
 
   const operationalExpenses = useMemo(() => {
+    console.log('operational', operationalData);
     return (
       operationalData &&
       operationalData[0].monthlyData.map(
-        ({ month, operationalExpenses, nonOperationalExpenses }) => {
+        ({
+          month,
+          operationalExpenses,
+          nonOperationalExpenses,
+        }: MonthlyData) => {
           return {
             name: month.substring(0, 3),
             'Operational Expenses': operationalExpenses,
-            'Non-operational Expenses': nonOperationalExpenses,
+            'Non Operational Expenses': nonOperationalExpenses,
           };
         }
       )
@@ -46,8 +60,7 @@ const Row2 = () => {
   const productExpenseData = useMemo(() => {
     return (
       productData &&
-      Array.isArray(productData) &&
-      productData.map(({ _id, price, expense }) => {
+      productData.map(({ _id, price, expense }: Product) => {
         return {
           id: _id,
           price: price,
@@ -57,12 +70,14 @@ const Row2 = () => {
     );
   }, [productData]);
 
+  console.log('first', productData);
+
   return (
     <>
       <DashboardBox gridArea="d">
         <BoxHeader
-          title="Operational vs Non-operational Expenses"
-          sideText="View all"
+          title="Operational vs Non-Operational Expenses"
+          sideText="+9%"
         />
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
@@ -158,51 +173,43 @@ const Row2 = () => {
         </FlexBetween>
       </DashboardBox>
       <DashboardBox gridArea="f">
-        <BoxHeader title="Product Expenses Ratio" sideText="View all" />
+        <BoxHeader title="Product Prices vs Expenses" sideText="+4%" />
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={productExpenseData}
+          <ScatterChart
             margin={{
               top: 20,
-              right: 0,
+              right: 25,
+              bottom: 40,
               left: -10,
-              bottom: 55,
             }}
           >
-            <CartesianGrid vertical={false} stroke={palette.grey[800]} />
+            <CartesianGrid stroke={palette.grey[800]} />
             <XAxis
-              dataKey="id"
-              tickLine={false}
-              axisLine={false}
-              style={{ fontSize: '10px' }}
-            />
-            <YAxis
-              tickLine={false}
-              yAxisId={'left'}
-              axisLine={false}
-              style={{ fontSize: '10px' }}
-            />
-            <YAxis
-              yAxisId="right"
-              orientation="right"
-              tickLine={false}
-              axisLine={false}
-              style={{ fontSize: '10px' }}
-            />
-            <Tooltip />
-            <Line
-              yAxisId="left"
-              type="monotone"
+              type="number"
               dataKey="price"
-              stroke={palette.tertiary[500]}
+              name="price"
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: '10px' }}
+              tickFormatter={(v) => `$${v}`}
             />
-            <Line
-              yAxisId="right"
-              type="monotone"
+            <YAxis
+              type="number"
               dataKey="expense"
-              stroke={palette.primary.main}
+              name="expense"
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: '10px' }}
+              tickFormatter={(v) => `$${v}`}
             />
-          </LineChart>
+            <ZAxis type="number" range={[20]} />
+            <Tooltip formatter={(v) => `$${v}`} />
+            <Scatter
+              name="Product Expense Ratio"
+              data={productExpenseData}
+              fill={palette.tertiary[500]}
+            />
+          </ScatterChart>
         </ResponsiveContainer>
       </DashboardBox>
     </>

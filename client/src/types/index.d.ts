@@ -87,3 +87,9 @@ export interface GetTransactionsResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+ interface MonthlyData {
+    month: string;
+    operationalExpenses: number;
+    nonOperationalExpenses: number;
+  }
