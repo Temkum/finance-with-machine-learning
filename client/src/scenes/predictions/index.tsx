@@ -23,16 +23,16 @@ const Predictions = () => {
 
   const formattedData = useMemo(() => {
     if (!kpiData) return [];
-    const monthData = kpiData[0].monthlyData;
+    const monthData = kpiData?.monthlyData;
 
-    const formatted: Array<DataPoint> = monthData.map(
+    const formatted: Array<DataPoint> = monthData?.map(
       ({ revenue }, i: number) => {
         return [i, revenue];
       }
     );
     const regressionLine = regression.linear(formatted);
 
-    return monthData.map(({ month, revenue }, i: number) => {
+    return monthData?.map(({ month, revenue }, i: number) => {
       return {
         name: month,
         'Actual Revenue': revenue,

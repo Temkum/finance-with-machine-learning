@@ -19,12 +19,7 @@ import {
 import { Box, Typography, useTheme } from '@mui/material';
 import { useMemo } from 'react';
 import FlexBetween from '@/components/FlexBetween';
-import {
-  GetKpisResponse,
-  GetProductsResponse,
-  MonthlyData,
-  Product,
-} from '@/types';
+import { MonthlyData, Product } from '@/types';
 
 const pieData = [
   { name: 'Group A', value: 600 },
@@ -34,29 +29,26 @@ const pieData = [
 const Row2 = () => {
   const { palette } = useTheme();
   const pieColors = [palette.primary.dark, palette.primary.light];
-  const { data: operationalData } = useGetKPIsQuery<GetKpisResponse>();
-  const { data: productData } = useGetProductsQuery<GetProductsResponse>();
+  const { data: operationalData } = useGetKPIsQuery();
+  const { data: productData } = useGetProductsQuery();
 
   const operationalExpenses = useMemo(() => {
-    return (
-      operationalData &&
-      operationalData[0].monthlyData.map(
-        ({
-          month,
-          operationalExpenses,
-          nonOperationalExpenses,
-        }: MonthlyData) => {
-          return {
-            name: month.substring(0, 3),
-            'Operational Expenses': operationalExpenses,
-            'Non Operational Expenses': nonOperationalExpenses,
-          };
-        }
-      )
+    if (!operationalData) return [];
+
+    return operationalData?.monthlyData.map(
+      ({ month, operationalExpenses, nonOperationalExpenses }: MonthlyData) => {
+        return {
+          name: month.substring(0, 3),
+          'Operational Expenses': operationalExpenses,
+          'Non Operational Expenses': nonOperationalExpenses,
+        };
+      }
     );
   }, [operationalData]);
 
   const productExpenseData = useMemo(() => {
+    if (!productData) return [];
+
     return (
       productData &&
       productData.map(({ _id, price, expense }: Product) => {
@@ -143,7 +135,7 @@ const Row2 = () => {
               paddingAngle={2}
               dataKey="value"
             >
-              {pieData.map((entry, index) => (
+              {pieData.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={pieColors[index]} />
               ))}
             </Pie>

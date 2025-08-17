@@ -16,17 +16,18 @@ import {
   YAxis,
 } from 'recharts';
 import { useMemo } from 'react';
-import { Box, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 import BoxHeader from '@/components/BoxHeader';
+import { GetKpisResponse } from '@/types';
 
 const Row1 = () => {
-  const { data }: { data?: GetKpisResponse[] } = useGetKPIsQuery();
+  const { data }: { data?: GetKpisResponse } = useGetKPIsQuery();
   const { palette } = useTheme();
 
   const revenueExpenses = useMemo(() => {
     return (
       data &&
-      data?.[0]?.monthlyData.map(({ month, revenue, expenses }) => {
+      data.monthlyData.map(({ month, revenue, expenses }) => {
         return {
           name: month.substring(0, 3),
           revenue: revenue,
@@ -39,7 +40,7 @@ const Row1 = () => {
   const revenueProfit = useMemo(() => {
     return (
       data &&
-      data[0].monthlyData.map(({ month, revenue, expenses }) => {
+      data?.monthlyData.map(({ month, revenue, expenses }) => {
         return {
           name: month.substring(0, 3),
           revenue: revenue,
@@ -52,7 +53,7 @@ const Row1 = () => {
   const revenue = useMemo(() => {
     return (
       data &&
-      data[0].monthlyData.map(({ month, revenue }) => {
+      data?.monthlyData.map(({ month, revenue }) => {
         return {
           name: month.substring(0, 3),
           revenue: revenue,

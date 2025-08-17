@@ -1,26 +1,66 @@
-import { Palette } from '@mui/material/styles/createPalette';
-interface PrimaryPalette {
-  100: string;
-  200: string;
-  300: string;
-  400: string,
-  500: string;
-  600: string;
-  700: string;
-  800: string;
-  900: string;
+import '@mui/material/styles';
+
+declare module '@mui/material/styles' {
+  interface PaletteColor {
+    100: string;
+    200: string;
+    300: string;
+    400: string;
+    500: string;
+    600: string;
+    700: string;
+    800: string;
+    900: string;
+  }
+
+  interface SimplePaletteColorOptions {
+    100?: string;
+    200?: string;
+    300?: string;
+    400?: string;
+    500?: string;
+    600?: string;
+    700?: string;
+    800?: string;
+    900?: string;
+  }
+
+  interface Palette {
+    grey: PaletteColor;
+    primary: PaletteColor;
+    secondary: PaletteColor;
+    tertiary: {
+      500: string;
+    };
+    background: {
+      light: string;
+      main: string;
+    };
+  }
+
+  interface PaletteOptions {
+    grey?: Partial<PaletteColor>;
+    primary?: Partial<PaletteColor>;
+    secondary?: Partial<PaletteColor>;
+    tertiary?: {
+      500?: string;
+    };
+    background?: {
+      light?: string;
+      main?: string;
+    };
+  }
+
+  interface Theme {
+    palette: Palette;
+  }
+
+  interface ThemeOptions {
+    palette?: PaletteOptions;
+  }
 }
 
-type Palette = {
-  palette: PrimaryPalette
-}
-
-type Props = Record<string, unknown>;
-
-type Theme = {
-  palette: Palette;
-};
-
+// Export all your custom interfaces
 export interface GetKpisResponse {
   id: string;
   _id: string;
@@ -28,9 +68,9 @@ export interface GetKpisResponse {
   totalProfit: number;
   totalRevenue: number;
   totalExpenses: number;
-  expensesByCategory: ExpenseByCategory
-  monthlyData: Array<Month>;
-  dailyData: Array<Day>;
+  expensesByCategory: ExpenseByCategory;
+  monthlyData: Month[];
+  dailyData: Day[];
 }
 
 export interface Product {
@@ -39,22 +79,13 @@ export interface Product {
   name: string;
   price: number;
   expense: number;
-  transactions: Array<string>;
+  transactions: string[];
   description: string;
   createdAt: string;
   updatedAt: string;
 }
 
-export interface GetProductsResponse {
- id: string;
-  _id: string;
-  __v: number;
-  price: number;
-  expense: number;
-  transactions: Array<string>;
-  createdAt: string;
-  updatedAt: string;
-}
+export interface GetProductsResponse extends Array<Product> {}
 
 export interface ExpenseByCategory {
   salaries: number;
@@ -70,6 +101,7 @@ export interface Month {
   nonOperationalExpenses: number;
   operationalExpenses: number;
 }
+
 export interface Day {
   id: string;
   date: string;
@@ -83,13 +115,16 @@ export interface GetTransactionsResponse {
   __v: number;
   buyer: string;
   amount: number;
-  productIds: Array<string>;
+  productIds: string[];
   createdAt: string;
   updatedAt: string;
 }
 
- interface MonthlyData {
-    month: string;
-    operationalExpenses: number;
-    nonOperationalExpenses: number;
-  }
+export interface MonthlyData {
+  month: string;
+  operationalExpenses: number;
+  nonOperationalExpenses: number;
+}
+
+// Re-export common types
+export type Props = Record<string, unknown>;

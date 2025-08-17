@@ -11,9 +11,9 @@ function App() {
 
   return (
     <>
-      <div className="app">
-        <BrowserRouter>
-          <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <div className="app">
+          <BrowserRouter>
             <CssBaseline />
             <Box width={'100%'} height={'100%'} padding="1rem 2rem 4rem 2rem">
               <Navbar />
@@ -22,9 +22,9 @@ function App() {
                 <Route path="/predictions" element={<Predictions />} />
               </Routes>
             </Box>
-          </ThemeProvider>
-        </BrowserRouter>
-      </div>
+          </BrowserRouter>
+        </div>
+      </ThemeProvider>
     </>
   );
 }

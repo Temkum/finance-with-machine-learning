@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom';
 import { Box, Typography, useTheme } from '@mui/material';
 import FlexBetween from '@/components/FlexBetween';
 
-type Props = {};
-
-const Navbar = (props: Props) => {
-  const { palette }: any = useTheme();
+const Navbar = () => {
+  const { palette } = useTheme();
 
   const [selected, setSelected] = useState('dashboard');
   return (

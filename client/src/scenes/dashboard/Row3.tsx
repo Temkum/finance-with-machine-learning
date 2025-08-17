@@ -23,8 +23,8 @@ const Row3 = () => {
   const pieChartData = useMemo(() => {
     if (!kpiData) return [];
 
-    const totalExpenses = kpiData[0].totalExpenses;
-    return Object.entries(kpiData[0].expensesByCategory).map(([key, value]) => {
+    const totalExpenses = kpiData?.totalExpenses;
+    return Object.entries(kpiData?.expensesByCategory).map(([key, value]) => {
       return [
         {
           name: key,
@@ -174,7 +174,7 @@ const Row3 = () => {
                   paddingAngle={3}
                   dataKey="value"
                 >
-                  {data.map((entry, index) => (
+                  {data.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={pieColors[index]} />
                   ))}
                 </Pie>
